@@ -4,6 +4,7 @@ import com.businessmeetmanagement.BusinessMeetManagement.exceptions.ResourceNotF
 import com.businessmeetmanagement.BusinessMeetManagement.models.Addon;
 import com.businessmeetmanagement.BusinessMeetManagement.repositories.AddonRepository;
 import com.businessmeetmanagement.BusinessMeetManagement.services.AddonService;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -12,6 +13,7 @@ import java.util.List;
 
 @Service
 @Transactional
+@Slf4j
 public class AddonServiceImpl implements AddonService {
 
     @Autowired
@@ -19,6 +21,7 @@ public class AddonServiceImpl implements AddonService {
 
     @Override
     public Addon addAddon(Addon addon) {
+        log.info("New Addon created");
         return addonRepository.save(addon);
     }
 
@@ -39,11 +42,13 @@ public class AddonServiceImpl implements AddonService {
         update.setAddonName(addon.getAddonName());
         update.setAddonDescription(addon.getAddonDescription());
         update.setAddonPrice(addon.getAddonPrice());
+        log.info("Addon Updated");
         return addonRepository.save(update);
     }
 
     @Override
     public void deleteAddon(int addonId) {
         addonRepository.deleteById(addonId);
+        log.warn("Addon Deleted");
     }
 }

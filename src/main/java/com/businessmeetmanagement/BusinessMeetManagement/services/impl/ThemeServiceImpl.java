@@ -4,6 +4,7 @@ import com.businessmeetmanagement.BusinessMeetManagement.exceptions.ResourceNotF
 import com.businessmeetmanagement.BusinessMeetManagement.models.Theme;
 import com.businessmeetmanagement.BusinessMeetManagement.repositories.ThemeRepository;
 import com.businessmeetmanagement.BusinessMeetManagement.services.ThemeService;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -12,6 +13,7 @@ import java.util.List;
 
 @Service
 @Transactional
+@Slf4j
 public class ThemeServiceImpl implements ThemeService {
 
     @Autowired
@@ -19,6 +21,7 @@ public class ThemeServiceImpl implements ThemeService {
 
     @Override
     public Theme addTheme(Theme theme) {
+        log.info("New Theme Added");
         return themeRepository.save(theme);
     }
 
@@ -43,11 +46,13 @@ public class ThemeServiceImpl implements ThemeService {
         update.setThemeCost(theme.getThemeCost());
         update.setThemeImageUrl(theme.getThemeImageUrl());
         update.setThemeReturnGift(theme.getThemeReturnGift());
+        log.info("Theme Updated");
         return themeRepository.save(update);
     }
 
     @Override
     public void deleteTheme(int themeId) {
         themeRepository.deleteById(themeId);
+        log.warn("Theme Deleted");
     }
 }
