@@ -1,4 +1,4 @@
-package com.example.businessmeetmanagement.models;
+package com.example.businessmeetmanagement.model;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;

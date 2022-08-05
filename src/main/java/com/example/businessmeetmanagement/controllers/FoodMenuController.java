@@ -1,7 +1,6 @@
 package com.example.businessmeetmanagement.controllers;
 
 import com.example.businessmeetmanagement.dto.FoodMenuDto;
-import com.example.businessmeetmanagement.models.FoodMenu;
 import com.example.businessmeetmanagement.services.FoodMenuService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;

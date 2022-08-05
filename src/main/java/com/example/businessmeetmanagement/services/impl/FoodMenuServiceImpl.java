@@ -3,7 +3,7 @@ package com.example.businessmeetmanagement.services.impl;
 import com.example.businessmeetmanagement.dto.FoodMenuDto;
 import com.example.businessmeetmanagement.exceptions.ResourceNotFoundException;
 import com.example.businessmeetmanagement.mapper.FoodMenuMapper;
-import com.example.businessmeetmanagement.models.FoodMenu;
+import com.example.businessmeetmanagement.entities.FoodMenu;
 import com.example.businessmeetmanagement.repositories.FoodMenuRepository;
 import com.example.businessmeetmanagement.services.FoodMenuService;
 import lombok.extern.slf4j.Slf4j;

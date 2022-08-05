@@ -1,7 +1,7 @@
 package com.example.businessmeetmanagement.mapper;
 
 import com.example.businessmeetmanagement.dto.AddonDto;
-import com.example.businessmeetmanagement.models.Addon;
+import com.example.businessmeetmanagement.entities.Addon;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.convention.MatchingStrategies;
 import org.springframework.stereotype.Component;

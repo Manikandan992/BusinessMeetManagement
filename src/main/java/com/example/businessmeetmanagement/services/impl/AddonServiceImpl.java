@@ -3,7 +3,7 @@ package com.example.businessmeetmanagement.services.impl;
 import com.example.businessmeetmanagement.dto.AddonDto;
 import com.example.businessmeetmanagement.exceptions.ResourceNotFoundException;
 import com.example.businessmeetmanagement.mapper.AddonMapper;
-import com.example.businessmeetmanagement.models.Addon;
+import com.example.businessmeetmanagement.entities.Addon;
 import com.example.businessmeetmanagement.repositories.AddonRepository;
 import com.example.businessmeetmanagement.services.AddonService;
 import lombok.extern.slf4j.Slf4j;

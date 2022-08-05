@@ -3,7 +3,7 @@ package com.example.businessmeetmanagement.services.impl;
 import com.example.businessmeetmanagement.dto.ThemeDto;
 import com.example.businessmeetmanagement.exceptions.ResourceNotFoundException;
 import com.example.businessmeetmanagement.mapper.ThemeMapper;
-import com.example.businessmeetmanagement.models.Theme;
+import com.example.businessmeetmanagement.entities.Theme;
 import com.example.businessmeetmanagement.repositories.ThemeRepository;
 import com.example.businessmeetmanagement.services.ThemeService;
 import lombok.extern.slf4j.Slf4j;

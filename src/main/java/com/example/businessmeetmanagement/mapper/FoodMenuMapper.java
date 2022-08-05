@@ -1,7 +1,7 @@
 package com.example.businessmeetmanagement.mapper;
 
 import com.example.businessmeetmanagement.dto.FoodMenuDto;
-import com.example.businessmeetmanagement.models.FoodMenu;
+import com.example.businessmeetmanagement.entities.FoodMenu;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.convention.MatchingStrategies;
 import org.springframework.stereotype.Component;
