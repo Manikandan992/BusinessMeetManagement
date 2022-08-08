@@ -1,14 +1,13 @@
 package com.example.businessmeetmanagement.entities;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import javax.persistence.*;
 
 @Entity
+@Getter
+@Setter
 @Table(name = "roles")
-@Data
 @NoArgsConstructor
 @AllArgsConstructor
 public class Role {
@@ -21,4 +20,5 @@ public class Role {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name="user_id")
     private User user;
+
 }

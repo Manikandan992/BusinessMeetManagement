@@ -16,17 +16,15 @@ public class SwaggerConfig {
 
     @Bean
     public Docket businessMeetManagement(){
-        Docket docket=new Docket(DocumentationType.SWAGGER_2).apiInfo(apiInfo())
+        return new Docket(DocumentationType.SWAGGER_2).apiInfo(apiInfo())
                 .select().apis(RequestHandlerSelectors.basePackage("com.example.businessmeetmanagement.controllers"))
                 .build();
-        return docket;
     }
 
     public ApiInfo apiInfo(){
-        ApiInfo apiInfo = new ApiInfoBuilder().description("Business Meet Management")
+        return new ApiInfoBuilder().description("Business Meet Management")
                 .contact(new Contact("Business Meet Management","http://www.fakeapi.com","fake@gmail.com"))
                 .license("Customer License").licenseUrl("http://www.fakeapi.com")
                 .build();
-        return apiInfo;
     }
 }
