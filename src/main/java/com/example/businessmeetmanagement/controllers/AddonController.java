@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/admin/addon")
+@RequestMapping("/admin")
 public class AddonController {
 
     @Autowired
@@ -21,24 +21,24 @@ public class AddonController {
         return ResponseEntity.ok(addonService.addAddon(addon));
     }
 
-    @GetMapping("/getAddon/{addonId}")
-    public ResponseEntity<AddonDto> getAddon(@PathVariable("addonId") Integer addonId){
+    @GetMapping("/addon/{id}")
+    public ResponseEntity<AddonDto> getAddon(@PathVariable("id") Integer addonId){
         return ResponseEntity.ok(addonService.getAddon(addonId));
     }
 
-    @GetMapping("/getAddons")
+    @GetMapping("/addons")
     public ResponseEntity<List<AddonDto>> getAddons(){
         List<AddonDto> addons=addonService.getAddons();
         return new ResponseEntity<>(addons, HttpStatus.OK);
     }
 
-    @PutMapping("/editAddon/{addonId}")
-    public ResponseEntity<AddonDto> updateAddon(@PathVariable("addonId") int addonId,@RequestBody AddonDto addon){
+    @PutMapping("/editAddon/{id}")
+    public ResponseEntity<AddonDto> updateAddon(@PathVariable("id") int addonId,@RequestBody AddonDto addon){
         return ResponseEntity.ok(addonService.updateAddon(addonId,addon));
     }
 
-    @DeleteMapping("/deleteAddon/{addonId}")
-    public void deleteAddon(@PathVariable("addonId") int addonId){
+    @DeleteMapping("/deleteAddon/{id}")
+    public void deleteAddon(@PathVariable("id") int addonId){
         addonService.deleteAddon(addonId);
     }
 }

@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/admin/FoodMenu")
+@RequestMapping("/admin")
 public class FoodMenuController {
 
     @Autowired
@@ -21,12 +21,12 @@ public class FoodMenuController {
         return ResponseEntity.ok(foodMenuService.addFoodMenu(foodMenu));
     }
 
-    @GetMapping("/getFoodMenu/{id}")
+    @GetMapping("/foodMenu/{id}")
     public ResponseEntity<FoodMenuDto> getFoodMenu(@PathVariable("id") Integer foodMenuId){
         return ResponseEntity.ok(foodMenuService.getFoodMenu(foodMenuId));
     }
 
-    @GetMapping("/getFoodMenus")
+    @GetMapping("/foodMenus")
     public ResponseEntity<List<FoodMenuDto>> getFoodMenus(){
         List<FoodMenuDto> foodMenus=foodMenuService.getFoodMenus();
         return new ResponseEntity<>(foodMenus, HttpStatus.OK);

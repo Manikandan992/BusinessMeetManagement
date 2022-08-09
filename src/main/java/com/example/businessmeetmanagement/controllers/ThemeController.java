@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/admin/theme")
+@RequestMapping("/admin")
 public class ThemeController {
 
     @Autowired
@@ -21,12 +21,12 @@ public class ThemeController {
         return ResponseEntity.ok(themeService.addTheme(theme));
     }
 
-    @GetMapping("/getTheme/{id}")
+    @GetMapping("/theme/{id}")
     public ResponseEntity<ThemeDto> getTheme(@PathVariable("id") int themeId){
         return ResponseEntity.ok(themeService.getTheme(themeId));
     }
 
-    @GetMapping("/getThemes")
+    @GetMapping("/themes")
     public ResponseEntity<List<ThemeDto>> getThemes(){
         List<ThemeDto> themes=themeService.getThemes();
         return new ResponseEntity<>(themes,HttpStatus.OK);
