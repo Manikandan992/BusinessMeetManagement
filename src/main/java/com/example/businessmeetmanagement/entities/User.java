@@ -1,19 +1,18 @@
 package com.example.businessmeetmanagement.entities;
 
-
 import lombok.*;
 
 import javax.persistence.*;
-
 
 @Entity
 @Setter
 @Getter
 @NoArgsConstructor
 @AllArgsConstructor
-
 public class User {
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private int userId;
     private String emailId;
     private String name;
     private String phoneNumber;

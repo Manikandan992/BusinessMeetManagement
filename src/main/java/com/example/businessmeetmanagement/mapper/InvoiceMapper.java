@@ -4,10 +4,12 @@ import com.example.businessmeetmanagement.dto.InvoiceDto;
 import com.example.businessmeetmanagement.entities.Invoice;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.convention.MatchingStrategies;
+import org.springframework.stereotype.Component;
 
 import java.util.Arrays;
 import java.util.List;
 
+@Component
 public class InvoiceMapper {
     public Invoice toInvoice(InvoiceDto invoiceDto){
         ModelMapper mapper = new ModelMapper();
