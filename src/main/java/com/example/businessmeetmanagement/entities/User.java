@@ -11,8 +11,6 @@ import javax.persistence.*;
 @AllArgsConstructor
 public class User {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int userId;
     private String emailId;
     private String name;
     private String phoneNumber;
