@@ -23,8 +23,8 @@ public class ThemeController {
     }
 
     @GetMapping("/theme/{id}")
-    public ResponseEntity<ThemeDto> getTheme(@PathVariable("id") int themeId){
-        return ResponseEntity.ok(themeService.getTheme(themeId));
+    public ResponseEntity<ThemeDto> getTheme(@PathVariable("id") int id){
+        return ResponseEntity.ok(themeService.getTheme(id));
     }
 
     @GetMapping("/themes")
@@ -34,12 +34,12 @@ public class ThemeController {
     }
 
     @PutMapping("/editTheme/{id}")
-    public ResponseEntity<ThemeDto> updateTheme(@PathVariable("id") int themeId,@RequestBody ThemeDto theme){
-        return ResponseEntity.ok(themeService.updateTheme(themeId,theme));
+    public ResponseEntity<ThemeDto> updateTheme(@PathVariable("id") int id,@RequestBody ThemeDto theme){
+        return ResponseEntity.ok(themeService.updateTheme(id,theme));
     }
 
     @DeleteMapping("/deleteTheme/{id}")
-    public void deleteTheme(@PathVariable("id") int themeId){
-        themeService.deleteTheme(themeId);
+    public void deleteTheme(@PathVariable("id") int id){
+        themeService.deleteTheme(id);
     }
 }

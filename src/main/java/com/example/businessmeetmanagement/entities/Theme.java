@@ -15,12 +15,9 @@ import javax.persistence.Id;
 public class Theme {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int themeId;
+    private int id;
     private String themeName;
     private String themeImageUrl;
     private String themeDescription;
-    private String themePhotographer;
-    private String themeVideographer;
-    private String themeReturnGift;
     private long themeCost;
 }

@@ -1,11 +1,21 @@
-package com.example.businessmeetmanagement.dto;
+package com.example.businessmeetmanagement.entities;
 
-import com.example.businessmeetmanagement.entities.User;
-import lombok.Data;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
-@Data
-public class EventDto {
+import javax.persistence.*;
 
+@Getter
+@Setter
+@Entity
+@NoArgsConstructor
+@AllArgsConstructor
+
+public class Event {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer eventId;
     private String emailId;
     private String eventName;

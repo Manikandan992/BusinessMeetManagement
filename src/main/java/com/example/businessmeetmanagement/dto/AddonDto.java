@@ -4,8 +4,8 @@ import lombok.Data;
 
 @Data
 public class AddonDto {
-    private int addonId;
+    private int id;
     private String addonName;
-    private String addonDescription;
+    private String addonimageUrl;
     private long addonPrice;
 }

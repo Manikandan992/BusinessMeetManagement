@@ -1,5 +1,4 @@
 package com.example.businessmeetmanagement.security;
-
 import org.springframework.security.core.GrantedAuthority;
 
 import java.io.Serializable;

@@ -4,9 +4,9 @@ import lombok.Data;
 
 @Data
 public class FoodMenuDto {
-    private int foodMenuId;
-    private String foodMenuName;
-    private String foodMenuImageUrl;
-    private long foodMenuPrice;
+    private int id;
+    private String menuName;
+    private String menuImageUrl;
+    private long menuPrice;
     private String itemCategory;
 }

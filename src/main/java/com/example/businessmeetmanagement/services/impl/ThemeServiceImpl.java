@@ -5,10 +5,10 @@ import com.example.businessmeetmanagement.exceptions.ResourceNotFoundException;
 import com.example.businessmeetmanagement.mapper.ThemeMapper;
 import com.example.businessmeetmanagement.entities.Theme;
 import com.example.businessmeetmanagement.services.ThemeService;
-import com.example.businessmeetmanagement.repositories.ThemeRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import com.example.businessmeetmanagement.repositories.ThemeRepository;
 
 import javax.transaction.Transactional;
 import java.util.List;
@@ -33,8 +33,8 @@ public class ThemeServiceImpl implements ThemeService {
     }
 
     @Override
-    public ThemeDto getTheme(int themeId) {
-        return mapper.toThemeDto(themeRepository.findById(themeId)
+    public ThemeDto getTheme(int id) {
+        return mapper.toThemeDto(themeRepository.findById(id)
                 .orElseThrow(()->new ResourceNotFoundException("Theme not found")));
     }
 
@@ -44,16 +44,13 @@ public class ThemeServiceImpl implements ThemeService {
     }
 
     @Override
-    public ThemeDto updateTheme(int themeId,ThemeDto theme) {
-        ThemeDto update=mapper.toThemeDto(themeRepository.findById(themeId)
+    public ThemeDto updateTheme(int id,ThemeDto theme) {
+        ThemeDto update=mapper.toThemeDto(themeRepository.findById(id)
                 .orElseThrow(()->new ResourceNotFoundException("Theme not found")));
         update.setThemeName(theme.getThemeName());
         update.setThemeDescription(theme.getThemeDescription());
-        update.setThemePhotographer(theme.getThemePhotographer());
-        update.setThemeVideographer(theme.getThemeVideographer());
         update.setThemeCost(theme.getThemeCost());
         update.setThemeImageUrl(theme.getThemeImageUrl());
-        update.setThemeReturnGift(theme.getThemeReturnGift());
         Theme theme1 = mapper.toTheme(update);
         theme1=themeRepository.save(theme1);
         log.info("Theme Updated");
@@ -61,8 +58,8 @@ public class ThemeServiceImpl implements ThemeService {
     }
 
     @Override
-    public void deleteTheme(int themeId) {
-        themeRepository.deleteById(themeId);
+    public void deleteTheme(int id) {
+        themeRepository.deleteById(id);
         log.warn("Theme Deleted");
     }
 }

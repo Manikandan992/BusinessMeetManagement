@@ -35,8 +35,8 @@ public class FoodMenuServiceImpl implements FoodMenuService {
     }
 
     @Override
-    public FoodMenuDto getFoodMenu(int foodMenuId) {
-        return mapper.toFoodMenuDto(foodMenuRepository.findById(foodMenuId)
+    public FoodMenuDto getFoodMenu(int id) {
+        return mapper.toFoodMenuDto(foodMenuRepository.findById(id)
                 .orElseThrow(()->new ResourceNotFoundException("FoodMenu not found")));
     }
 
@@ -46,22 +46,22 @@ public class FoodMenuServiceImpl implements FoodMenuService {
     }
 
     @Override
-    public FoodMenuDto updateFoodMenu(int foodMenuId, FoodMenuDto foodMenu) {
-        FoodMenuDto update=mapper.toFoodMenuDto(foodMenuRepository.findById(foodMenuId)
+    public FoodMenuDto updateFoodMenu(int id, FoodMenuDto foodMenu) {
+        FoodMenuDto update=mapper.toFoodMenuDto(foodMenuRepository.findById(id)
                 .orElseThrow(()-> new ResourceNotFoundException("FoodMenu not found")));
-        update.setFoodMenuName(foodMenu.getFoodMenuName());
-        update.setFoodMenuImageUrl(foodMenu.getFoodMenuImageUrl());
-        update.setFoodMenuPrice(foodMenu.getFoodMenuPrice());
+        update.setMenuName(foodMenu.getMenuName());
+        update.setMenuImageUrl(foodMenu.getMenuImageUrl());
+        update.setMenuPrice(foodMenu.getMenuPrice());
         update.setItemCategory(foodMenu.getItemCategory());
-        FoodMenu foodMenu1=mapper.toFoodMenu(foodMenu);
+        FoodMenu foodMenu1=mapper.toFoodMenu(update);
         foodMenu1=foodMenuRepository.save(foodMenu1);
         log.info("FoodMenu updated");
         return mapper.toFoodMenuDto(foodMenu1);
     }
 
     @Override
-    public void deleteFoodMenu(int foodMenuId) {
-        foodMenuRepository.deleteById(foodMenuId);
+    public void deleteFoodMenu(int id) {
+        foodMenuRepository.deleteById(id);
         log.warn("FoodMenu Deleted");
     }
 

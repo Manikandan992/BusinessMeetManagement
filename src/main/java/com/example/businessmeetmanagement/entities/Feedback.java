@@ -1,5 +1,4 @@
 package com.example.businessmeetmanagement.entities;
-
 import lombok.*;
 
 import javax.persistence.Entity;
@@ -15,7 +14,7 @@ import javax.persistence.Id;
 public class Feedback {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int userId;
-    private String rating;
-    private String review;
+    private long id;
+    private String name;
+    private String feedbackMsg;
 }

@@ -6,8 +6,8 @@ import java.util.List;
 
 public interface AddonService {
     AddonDto addAddon(AddonDto addon);
-    AddonDto getAddon(int addonId);
+    AddonDto getAddon(int id);
     List<AddonDto> getAddons();
-    AddonDto updateAddon(int addonId,AddonDto addon);
-    void deleteAddon(int addonId);
+    AddonDto updateAddon(int id,AddonDto addon);
+    void deleteAddon(int id);
 }

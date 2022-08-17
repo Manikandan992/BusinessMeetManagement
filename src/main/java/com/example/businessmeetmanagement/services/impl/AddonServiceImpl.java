@@ -33,8 +33,8 @@ public class AddonServiceImpl implements AddonService {
     }
 
     @Override
-    public AddonDto getAddon(int addonId) {
-        return mapper.toAddonDto(addonRepository.findById(addonId)
+    public AddonDto getAddon(int id) {
+        return mapper.toAddonDto(addonRepository.findById(id)
                 .orElseThrow(()->new ResourceNotFoundException("Addon not found")));
     }
 
@@ -48,7 +48,7 @@ public class AddonServiceImpl implements AddonService {
         AddonDto update=mapper.toAddonDto(addonRepository.findById(addonId)
                 .orElseThrow(()-> new ResourceNotFoundException("Addon not found")));
         update.setAddonName(addon.getAddonName());
-        update.setAddonDescription(addon.getAddonDescription());
+        update.setAddonimageUrl(addon.getAddonimageUrl());
         update.setAddonPrice(addon.getAddonPrice());
         Addon addon1 = mapper.toAddon(update);
         addon1=addonRepository.save(addon1);
@@ -57,8 +57,8 @@ public class AddonServiceImpl implements AddonService {
     }
 
     @Override
-    public void deleteAddon(int addonId) {
-        addonRepository.deleteById(addonId);
+    public void deleteAddon(int id) {
+        addonRepository.deleteById(id);
         log.warn("Addon Deleted");
     }
 }

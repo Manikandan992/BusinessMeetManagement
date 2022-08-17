@@ -23,8 +23,8 @@ public class FoodMenuController {
     }
 
     @GetMapping("/foodMenu/{id}")
-    public ResponseEntity<FoodMenuDto> getFoodMenu(@PathVariable("id") Integer foodMenuId){
-        return ResponseEntity.ok(foodMenuService.getFoodMenu(foodMenuId));
+    public ResponseEntity<FoodMenuDto> getFoodMenu(@PathVariable("id") Integer id){
+        return ResponseEntity.ok(foodMenuService.getFoodMenu(id));
     }
 
     @GetMapping("/foodMenus")
@@ -34,11 +34,11 @@ public class FoodMenuController {
     }
 
     @PutMapping("/editFoodMenu/{id}")
-    public ResponseEntity<FoodMenuDto> updateFoodMenu(@PathVariable("id") int foodMenuId,@RequestBody FoodMenuDto foodMenu){
-        return ResponseEntity.ok(foodMenuService.updateFoodMenu(foodMenuId,foodMenu));
+    public ResponseEntity<FoodMenuDto> updateFoodMenu(@PathVariable("id") int id,@RequestBody FoodMenuDto foodMenu){
+        return ResponseEntity.ok(foodMenuService.updateFoodMenu(id,foodMenu));
     }
 
     @DeleteMapping("/deleteFoodMenu/{id}")
-    public void deleteFoodMenu(@PathVariable("id") int foodMenuId){ foodMenuService.deleteFoodMenu(foodMenuId);
+    public void deleteFoodMenu(@PathVariable("id") int id){ foodMenuService.deleteFoodMenu(id);
     }
 }

@@ -15,10 +15,10 @@ import javax.persistence.Id;
 public class FoodMenu {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int foodMenuId;
-    private String foodMenuName;
-    private String foodMenuImageUrl;
-    private long foodMenuPrice;
+    private int id;
+    private String menuName;
+    private String menuImageUrl;
+    private long menuPrice;
     private String itemCategory;
 }
 

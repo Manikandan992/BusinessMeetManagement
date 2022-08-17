@@ -23,8 +23,8 @@ public class AddonController {
     }
 
     @GetMapping("/addon/{id}")
-    public ResponseEntity<AddonDto> getAddon(@PathVariable("id") Integer addonId){
-        return ResponseEntity.ok(addonService.getAddon(addonId));
+    public ResponseEntity<AddonDto> getAddon(@PathVariable("id") Integer id){
+        return ResponseEntity.ok(addonService.getAddon(id));
     }
 
     @GetMapping("/addons")
@@ -34,12 +34,12 @@ public class AddonController {
     }
 
     @PutMapping("/editAddon/{id}")
-    public ResponseEntity<AddonDto> updateAddon(@PathVariable("id") int addonId,@RequestBody AddonDto addon){
-        return ResponseEntity.ok(addonService.updateAddon(addonId,addon));
+    public ResponseEntity<AddonDto> updateAddon(@PathVariable("id") int id,@RequestBody AddonDto addon){
+        return ResponseEntity.ok(addonService.updateAddon(id,addon));
     }
 
     @DeleteMapping("/deleteAddon/{id}")
-    public void deleteAddon(@PathVariable("id") int addonId){
-        addonService.deleteAddon(addonId);
+    public void deleteAddon(@PathVariable("id") int id){
+        addonService.deleteAddon(id);
     }
 }

@@ -6,8 +6,8 @@ import java.util.List;
 
 public interface ThemeService {
     ThemeDto addTheme(ThemeDto theme);
-    ThemeDto getTheme(int themeId);
+    ThemeDto getTheme(int id);
     List<ThemeDto> getThemes();
-    ThemeDto updateTheme(int themeId,ThemeDto theme);
-    void deleteTheme(int themeId);
+    ThemeDto updateTheme(int id,ThemeDto theme);
+    void deleteTheme(int id);
 }

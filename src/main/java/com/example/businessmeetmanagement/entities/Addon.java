@@ -15,8 +15,8 @@ import javax.persistence.Id;
 public class Addon {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int addonId;
+    private int id;
     private String addonName;
-    private String addonDescription;
+    private String addonimageUrl;
     private long addonPrice;
 }

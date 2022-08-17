@@ -1,65 +1,84 @@
 package com.example.businessmeetmanagement.controllers;
 
+
+import com.example.businessmeetmanagement.dto.UserDto;
 import com.example.businessmeetmanagement.entities.AuthenticationRequest;
 import com.example.businessmeetmanagement.entities.AuthenticationResponse;
 import com.example.businessmeetmanagement.entities.User;
 import com.example.businessmeetmanagement.repositories.UserRepository;
 import com.example.businessmeetmanagement.security.JwtTokenUtil;
-import com.example.businessmeetmanagement.security.MyUserDetailService;
+import com.example.businessmeetmanagement.security.MyUserDetailsService;
+import com.example.businessmeetmanagement.services.UserService;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.server.ResponseStatusException;
+
+import javax.annotation.PostConstruct;
+import java.util.List;
+
 
 @RestController
-@CrossOrigin("*")
+@CrossOrigin(origins="http://localhost:4200")
 public class AuthController {
-
     @Autowired
-    private MyUserDetailService userDetailService;
+    private UserRepository userRepository;
+    @Autowired
+    private AuthenticationManager authenticationManager;
+    @Autowired
+    private MyUserDetailsService userDetailsService;
     @Autowired
     private JwtTokenUtil jwtTokenUtil;
-
     @Autowired
-    private UserRepository urepo;
+    private UserService service;
 
-    @PostMapping("/signup")
-    public ResponseEntity<String> saveUser(@RequestBody User user) {
-        User user1=urepo.findByEmailId(user.getEmailId());
-        if(user1!=null)
-        {
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Already Exist");
-
-        }
-        else
-        {
-            BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
-            String encodedPassword = passwordEncoder.encode(user.getPassword());
-            user.setPassword(encodedPassword);
-            urepo.save(user);
-            return ResponseEntity.ok("User added");
-        }
-
-
+    @PostConstruct
+    public void saveAdmin(){
+        service.saveAdmin();
     }
+    //register
+    @PostMapping("/signup")
+    public ResponseEntity<UserDto> register(@RequestBody UserDto user) throws Exception {
+        try {
+            UserDto userObj = null;
+            userObj = service.saveUser(user);
+            return new ResponseEntity<>(userObj, HttpStatus.OK);
+        } catch (Exception e) {
+            return new ResponseEntity(e.getMessage(),HttpStatus.BAD_REQUEST);
+        }
+    }
+
+    //login
     @PostMapping("/login")
-    public  ResponseEntity<?> login(@RequestBody AuthenticationRequest authenticationRequest)throws Exception {
-        User userObj = null;
-        userObj = urepo.findByEmailId(authenticationRequest.getEmailId());
+    public ResponseEntity<Object> login(@RequestBody AuthenticationRequest authenticationRequest) throws Exception {
+        UserDto userObj = null;
+        userObj = service.findByEmail(authenticationRequest.getEmail());
         if (userObj != null) {
             BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
             boolean passwordExist = passwordEncoder.matches(authenticationRequest.getPassword(), userObj.getPassword());
             if (passwordExist) {
-                final org.springframework.security.core.userdetails.UserDetails userDetails = userDetailService.loadUserByUsername(authenticationRequest.getEmailId());
+                final UserDetails userDetails = userDetailsService.loadUserByUsername(authenticationRequest.getEmail());
                 final String jwt = jwtTokenUtil.generateToken(userDetails);
-                return ResponseEntity.ok(new AuthenticationResponse(jwt, urepo.findByEmailId(authenticationRequest.getEmailId())));
+                return ResponseEntity.ok(new AuthenticationResponse(jwt, service.findByEmail(authenticationRequest.getEmail())));
             } else {
                 return new ResponseEntity<>("password Mismatched", HttpStatus.BAD_REQUEST);
             }
         } else {
             return new ResponseEntity<>("Not found", HttpStatus.OK);
         }
+    }
+
+    @GetMapping("admin/users")
+    public ResponseEntity<List<UserDto>> getAllUsers(){
+        List<UserDto> users=service.getAllUsers();
+        return new ResponseEntity<>(users,HttpStatus.OK);
+    }
+
+    @DeleteMapping("admin/deleteUser")
+    public void deleteUser(@PathVariable("id") Long id){
+        service.deleteUser(id);
     }
 }
