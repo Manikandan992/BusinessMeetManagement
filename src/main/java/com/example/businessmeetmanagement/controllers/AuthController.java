@@ -81,4 +81,9 @@ public class AuthController {
     public void deleteUser(@PathVariable("id") Long id){
         service.deleteUser(id);
     }
+
+    @GetMapping("user/{id}")
+    public ResponseEntity<UserDto> getUser(@PathVariable("id") long id){
+        return ResponseEntity.ok(service.getById(id));
+    }
 }

@@ -38,6 +38,7 @@ public class EventController {
     public void deleteEvent(@PathVariable("id") int eventId){
         eventService.deleteEvent(eventId);
     }
+
     @GetMapping("user/view-booked-events/{id}")
     public ResponseEntity<List<EventDto>> getAllEventsByUserId(@PathVariable("id") long userId){
         List<EventDto> events = eventService.getAllEventByUserId(userId);

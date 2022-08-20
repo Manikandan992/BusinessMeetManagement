@@ -51,17 +51,14 @@ public class EventServiceImpl implements EventService {
     public EventDto editEvent(int eventId, EventDto event) {
         EventDto update=mapper.toEventDto(eventRepository.findById(eventId).orElseThrow(()->new ResourceNotFoundException("Event not Found")));
         update.setEventName(event.getEventName());
-        update.setApplicantName(event.getApplicantName());
-        update.setApplicantAddress(event.getApplicantAddress());
-        update.setApplicantMobile(event.getApplicantMobile());
-        update.setApplicantEmail(event.getApplicantEmail());
-        update.setLocation(event.getLocation());
+        update.setName(event.getName());
+        update.setUserAddress(event.getUserAddress());
+        update.setPhoneNumber(event.getPhoneNumber());
         update.setEventDate(event.getEventDate());
         update.setEventTime(event.getEventTime());
         update.setNoOfPeople(event.getNoOfPeople());
-        update.setSelectItem(event.getSelectItem());
-        update.setQuantity(event.getQuantity());
-        update.setSelectAddOnsCategory(event.getSelectAddOnsCategory());
+        update.setMenu(event.getMenu());
+        update.setAddon(event.getAddon());
         Event event1 =mapper.toEvent(update);
         event1=eventRepository.save(event1);
         log.info("Event modified");
