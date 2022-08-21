@@ -29,5 +29,6 @@ public class Event {
     private int noOfPeople;
     private int menu;
     private int addon;
+    private int theme;
     private long userId;
 }
