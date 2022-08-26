@@ -1,11 +1,8 @@
-package com.example.tests.controller;
+package com.example.businessmeetmanagement.controller;
 
 import com.example.businessmeetmanagement.controllers.FoodMenuController;
-import com.example.businessmeetmanagement.controllers.ThemeController;
 import com.example.businessmeetmanagement.dto.FoodMenuDto;
-import com.example.businessmeetmanagement.dto.ThemeDto;
 import com.example.businessmeetmanagement.services.FoodMenuService;
-import com.example.businessmeetmanagement.services.ThemeService;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.ObjectWriter;
@@ -37,32 +34,33 @@ import static org.hamcrest.Matchers.hasSize;
 
 @ExtendWith(MockitoExtension.class)
 @RunWith(MockitoJUnitRunner.class)
-public class ThemeControllerTests {
+public class FoodMenuControllerTests {
     @InjectMocks
-    ThemeController themeController;
+    FoodMenuController foodMenuController;
     @Mock
-    ThemeService themeService;
+    FoodMenuService foodMenuService;
     ObjectMapper objectMapper=new ObjectMapper();
     ObjectWriter objectWriter=objectMapper.writer();
     private MockMvc mockMvc;
-    ThemeDto themeDto1=new ThemeDto(1,"Fresher's Meet","12-8-90","Freshers are good",8000);
-    ThemeDto themeDto2=new ThemeDto(2,"Orientation Meet","12-08-2020","Orientation is a backbone",9000);
+    FoodMenuDto foodMenuDto1=new FoodMenuDto(1,"Pizza","12-8-90",80,"Non-veg");
+    FoodMenuDto foodMenuDto2=new FoodMenuDto(2,"Burger","12-08-2020",90,"veg");
     @Before
     public void setUp(){
         MockitoAnnotations.initMocks(this);
-        this.mockMvc= MockMvcBuilders.standaloneSetup(themeController).build();
+        this.mockMvc= MockMvcBuilders.standaloneSetup(foodMenuController).build();
     }
     @Test
     @Order(1)
     public void test_addFoodMenu(){
         String content;
+        FoodMenuDto output=foodMenuDto1;
         try{
-            content=objectWriter.writeValueAsString(themeDto1);
+            content=objectWriter.writeValueAsString(foodMenuDto1);
         } catch (JsonProcessingException e) {
             throw new RuntimeException(e);
         }
         MockHttpServletRequestBuilder mockRequest= MockMvcRequestBuilders
-                .post("/admin/addTheme/")
+                .post("/admin/addFoodMenu/")
                 .contentType(MediaType.APPLICATION_JSON)
                 .characterEncoding("utf-8")
                 .content(content);
@@ -70,18 +68,18 @@ public class ThemeControllerTests {
             mockMvc.perform(mockRequest)
                     .andExpect(MockMvcResultMatchers.status().isOk())
                     .andDo(MockMvcResultHandlers.print());
-            Assert.assertEquals(themeDto1,themeDto1);
+            Assert.assertEquals(foodMenuDto1,output);
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
     }
     @Test
     @Order(2)
-    public void test_getThemes() throws Exception {
-        List<ThemeDto> themeList=new ArrayList<>(Arrays.asList(themeDto1,themeDto2));
-        Mockito.when(themeService.getThemes()).thenReturn(themeList);
+    public void test_getFoodMenus() throws Exception {
+        List<FoodMenuDto> foodList=new ArrayList<>(Arrays.asList(foodMenuDto1,foodMenuDto2));
+        Mockito.when(foodMenuService.getFoodMenus()).thenReturn(foodList);
         mockMvc.perform(MockMvcRequestBuilders
-                        .get("/admin/themes")
+                        .get("/admin/foodMenus")
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(MockMvcResultMatchers.status().isOk())
                 .andExpect(MockMvcResultMatchers.jsonPath("$",hasSize(2)))
@@ -89,28 +87,28 @@ public class ThemeControllerTests {
     }
     @Test
     @Order(3)
-    public void test_getTheme() throws Exception {
+    public void test_getFoodMenu() throws Exception {
         int id=1;
-        Mockito.when(themeService.getTheme(id)).thenReturn(themeDto1);
+        Mockito.when(foodMenuService.getFoodMenu(id)).thenReturn(foodMenuDto1);
         mockMvc.perform(MockMvcRequestBuilders
-                        .get("/admin/theme/1")
+                        .get("/admin/foodMenu/1")
                         .contentType(MediaType.APPLICATION_JSON))
                 .andDo(MockMvcResultHandlers.print())
                 .andExpect(MockMvcResultMatchers.status().isOk())
-                .andExpect(MockMvcResultMatchers.jsonPath("$.themeName").value("Fresher's Meet"));
+                .andExpect(MockMvcResultMatchers.jsonPath("$.menuName").value("Pizza"));
     }
     @Test
     @Order(4)
-    public void test_updateTheme() throws Exception {
+    public void test_updateFoodMenu() throws Exception {
         int id=1;
         String content;
         try{
-            content=objectWriter.writeValueAsString(themeDto1);
+            content=objectWriter.writeValueAsString(foodMenuDto1);
         } catch (JsonProcessingException e) {
             throw new RuntimeException(e);
         }
         MockHttpServletRequestBuilder mockRequest=MockMvcRequestBuilders
-                .put("/admin/editTheme/1")
+                .put("/admin/editFoodMenu/1")
                 .contentType(MediaType.APPLICATION_JSON)
                 .accept(MediaType.APPLICATION_JSON)
                 .characterEncoding("utf-8")
@@ -121,16 +119,14 @@ public class ThemeControllerTests {
     }
     @Test
     @Order(5)
-    public void test_deleteTheme() throws Exception {
+    public void test_deleteFoodMenu() throws Exception {
         int id=1;
-
         MockHttpServletRequestBuilder mockRequest=MockMvcRequestBuilders
-                .delete("/admin/deleteTheme/1")
+                .delete("/admin/deleteFoodMenu/1")
                 .contentType(MediaType.APPLICATION_JSON)
                 .accept(MediaType.APPLICATION_JSON);
         mockMvc.perform(mockRequest)
                 .andDo(MockMvcResultHandlers.print())
                 .andExpect(MockMvcResultMatchers.status().isOk());
-
     }
 }

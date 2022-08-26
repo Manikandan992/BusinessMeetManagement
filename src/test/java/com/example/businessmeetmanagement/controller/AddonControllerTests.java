@@ -1,4 +1,4 @@
-package com.example.tests.controller;
+package com.example.businessmeetmanagement.controller;
 
 import com.example.businessmeetmanagement.controllers.AddonController;
 import com.example.businessmeetmanagement.dto.AddonDto;
@@ -53,6 +53,7 @@ public class AddonControllerTests {
     @Order(1)
     public void test_addAddon(){
         String content;
+        AddonDto output =addonDto1;
         try{
             content=objectWriter.writeValueAsString(addonDto1);
         } catch (JsonProcessingException e) {
@@ -67,7 +68,7 @@ public class AddonControllerTests {
             mockMvc.perform(mockRequest)
                     .andExpect(MockMvcResultMatchers.status().isOk())
                     .andDo(MockMvcResultHandlers.print());
-            Assert.assertEquals(addonDto1,addonDto1);
+            Assert.assertEquals(addonDto1,output);
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
@@ -99,7 +100,7 @@ public class AddonControllerTests {
     @Test
     @Order(4)
     public void test_updateAddon() throws Exception {
-        int id=1;
+
         String content;
         try{
             content=objectWriter.writeValueAsString(addonDto1);
@@ -119,7 +120,6 @@ public class AddonControllerTests {
     @Test
     @Order(5)
     public void test_deleteAddon() throws Exception {
-        int id=1;
         MockHttpServletRequestBuilder mockRequest=MockMvcRequestBuilders
                 .delete("/admin/deleteAddon/1")
                 .contentType(MediaType.APPLICATION_JSON)

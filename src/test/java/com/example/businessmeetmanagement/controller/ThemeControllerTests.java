@@ -1,11 +1,8 @@
-package com.example.tests.controller;
+package com.example.businessmeetmanagement.controller;
 
-import com.example.businessmeetmanagement.controllers.AddonController;
-import com.example.businessmeetmanagement.controllers.EventController;
-import com.example.businessmeetmanagement.dto.AddonDto;
-import com.example.businessmeetmanagement.dto.EventDto;
-import com.example.businessmeetmanagement.services.AddonService;
-import com.example.businessmeetmanagement.services.EventService;
+import com.example.businessmeetmanagement.controllers.ThemeController;
+import com.example.businessmeetmanagement.dto.ThemeDto;
+import com.example.businessmeetmanagement.services.ThemeService;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.ObjectWriter;
@@ -37,32 +34,33 @@ import static org.hamcrest.Matchers.hasSize;
 
 @ExtendWith(MockitoExtension.class)
 @RunWith(MockitoJUnitRunner.class)
-public class EventControllerTests {
+public class ThemeControllerTests {
     @InjectMocks
-    EventController eventController;
+    ThemeController themeController;
     @Mock
-    EventService eventService;
+    ThemeService themeService;
     ObjectMapper objectMapper=new ObjectMapper();
     ObjectWriter objectWriter=objectMapper.writer();
     private MockMvc mockMvc;
-     EventDto eventDto1=new EventDto(1,"Fresher's Day","Mohammed","Coimbatore","12-8-2022","9384784053","abc@gmail.com","12:00",10,500,200,8000, 2);
-     EventDto eventDto2=new EventDto(2,"Orientation Day","Taha","Chennai","14-8-2022","9904084858","taha@gmail.com","10:00",50,100,200,8000, 3);
+    ThemeDto themeDto1=new ThemeDto(1,"Fresher's Meet","12-8-90","Freshers are good",8000);
+    ThemeDto themeDto2=new ThemeDto(2,"Orientation Meet","12-08-2020","Orientation is a backbone",9000);
     @Before
     public void setUp(){
         MockitoAnnotations.initMocks(this);
-        this.mockMvc= MockMvcBuilders.standaloneSetup(eventController).build();
+        this.mockMvc= MockMvcBuilders.standaloneSetup(themeController).build();
     }
     @Test
     @Order(1)
-    public void test_addEvent(){
+    public void test_addFoodMenu(){
         String content;
+        ThemeDto output=themeDto1;
         try{
-            content=objectWriter.writeValueAsString(eventDto1);
+            content=objectWriter.writeValueAsString(themeDto1);
         } catch (JsonProcessingException e) {
             throw new RuntimeException(e);
         }
         MockHttpServletRequestBuilder mockRequest= MockMvcRequestBuilders
-                .post("/user/bookEvent")
+                .post("/admin/addTheme/")
                 .contentType(MediaType.APPLICATION_JSON)
                 .characterEncoding("utf-8")
                 .content(content);
@@ -70,18 +68,18 @@ public class EventControllerTests {
             mockMvc.perform(mockRequest)
                     .andExpect(MockMvcResultMatchers.status().isOk())
                     .andDo(MockMvcResultHandlers.print());
-            Assert.assertEquals(eventDto1,eventDto1);
+            Assert.assertEquals(themeDto1,output);
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
     }
     @Test
     @Order(2)
-    public void test_getAllEvents() throws Exception {
-        List<EventDto> eventList=new ArrayList<>(Arrays.asList(eventDto1,eventDto2));
-        Mockito.when(eventService.getAllEvents()).thenReturn(eventList);
+    public void test_getThemes() throws Exception {
+        List<ThemeDto> themeList=new ArrayList<>(Arrays.asList(themeDto1,themeDto2));
+        Mockito.when(themeService.getThemes()).thenReturn(themeList);
         mockMvc.perform(MockMvcRequestBuilders
-                        .get("/admin/view-booked-event")
+                        .get("/admin/themes")
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(MockMvcResultMatchers.status().isOk())
                 .andExpect(MockMvcResultMatchers.jsonPath("$",hasSize(2)))
@@ -89,41 +87,28 @@ public class EventControllerTests {
     }
     @Test
     @Order(3)
-    public void test_getEvent() throws Exception {
-        int eventId=1;
-        Mockito.when(eventService.getEvent(eventId)).thenReturn(eventDto1);
+    public void test_getTheme() throws Exception {
+        int id=1;
+        Mockito.when(themeService.getTheme(id)).thenReturn(themeDto1);
         mockMvc.perform(MockMvcRequestBuilders
-                        .get("/user/view-booked-event/1")
+                        .get("/admin/theme/1")
                         .contentType(MediaType.APPLICATION_JSON))
                 .andDo(MockMvcResultHandlers.print())
                 .andExpect(MockMvcResultMatchers.status().isOk())
-                .andExpect(MockMvcResultMatchers.jsonPath("$.eventName").value("Fresher's Day"));
+                .andExpect(MockMvcResultMatchers.jsonPath("$.themeName").value("Fresher's Meet"));
     }
     @Test
     @Order(4)
-    public void test_getAllEventsByUserId() throws Exception {
-        long userId = 2;
-        List<EventDto> eventList = new ArrayList<>(Arrays.asList(eventDto1));
-        Mockito.when(eventService.getAllEventByUserId(userId)).thenReturn(eventList);
-        mockMvc.perform(MockMvcRequestBuilders
-                        .get("/user/view-booked-events/2")
-                        .contentType(MediaType.APPLICATION_JSON))
-                .andDo(MockMvcResultHandlers.print())
-                .andExpect(MockMvcResultMatchers.status().isOk())
-                .andExpect(MockMvcResultMatchers.jsonPath("$[0].eventName").value("Fresher's Day"));
-    }
-    @Test
-    @Order(5)
-    public void test_editEvent() throws Exception {
-        int eventId=1;
+    public void test_updateTheme() throws Exception {
+        int id=1;
         String content;
         try{
-            content=objectWriter.writeValueAsString(eventDto1);
+            content=objectWriter.writeValueAsString(themeDto1);
         } catch (JsonProcessingException e) {
             throw new RuntimeException(e);
         }
         MockHttpServletRequestBuilder mockRequest=MockMvcRequestBuilders
-                .put("/view-booked-event/edit-view-booked-event/1")
+                .put("/admin/editTheme/1")
                 .contentType(MediaType.APPLICATION_JSON)
                 .accept(MediaType.APPLICATION_JSON)
                 .characterEncoding("utf-8")
@@ -133,16 +118,17 @@ public class EventControllerTests {
                 .andExpect(MockMvcResultMatchers.status().isOk());
     }
     @Test
-    @Order(6)
-    public void test_deleteEvent() throws Exception {
-        int eventId=1;
+    @Order(5)
+    public void test_deleteTheme() throws Exception {
+        int id=1;
+
         MockHttpServletRequestBuilder mockRequest=MockMvcRequestBuilders
-                .delete("/user/view-booked-event/delete-view-booked-event/1")
+                .delete("/admin/deleteTheme/1")
                 .contentType(MediaType.APPLICATION_JSON)
                 .accept(MediaType.APPLICATION_JSON);
         mockMvc.perform(mockRequest)
                 .andDo(MockMvcResultHandlers.print())
                 .andExpect(MockMvcResultMatchers.status().isOk());
-    }
 
+    }
 }

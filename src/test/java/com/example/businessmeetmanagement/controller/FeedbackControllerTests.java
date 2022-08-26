@@ -1,9 +1,7 @@
-package com.example.tests.controller;
+package com.example.businessmeetmanagement.controller;
 
 import com.example.businessmeetmanagement.controllers.FeedbackController;
-import com.example.businessmeetmanagement.dto.AddonDto;
 import com.example.businessmeetmanagement.dto.FeedbackDto;
-import com.example.businessmeetmanagement.dto.ThemeDto;
 import com.example.businessmeetmanagement.services.FeedbackService;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -55,6 +53,7 @@ public class FeedbackControllerTests {
     @Order(1)
     public void test_addFeedback(){
         String content;
+        FeedbackDto output=feedbackDto1;
         try{
             content=objectWriter.writeValueAsString(feedbackDto1);
         } catch (JsonProcessingException e) {
@@ -69,7 +68,7 @@ public class FeedbackControllerTests {
             mockMvc.perform(mockRequest)
                     .andExpect(MockMvcResultMatchers.status().isOk())
                     .andDo(MockMvcResultHandlers.print());
-            Assert.assertEquals(feedbackDto1,feedbackDto1);
+            Assert.assertEquals(feedbackDto1,output);
         } catch (Exception e) {
             throw new RuntimeException(e);
         }

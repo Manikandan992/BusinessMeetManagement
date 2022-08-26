@@ -1,11 +1,8 @@
-package com.example.tests.controller;
+package com.example.businessmeetmanagement.controller;
 
-import com.example.businessmeetmanagement.controllers.AddonController;
-import com.example.businessmeetmanagement.controllers.FoodMenuController;
-import com.example.businessmeetmanagement.dto.AddonDto;
-import com.example.businessmeetmanagement.dto.FoodMenuDto;
-import com.example.businessmeetmanagement.services.AddonService;
-import com.example.businessmeetmanagement.services.FoodMenuService;
+import com.example.businessmeetmanagement.controllers.EventController;
+import com.example.businessmeetmanagement.dto.EventDto;
+import com.example.businessmeetmanagement.services.EventService;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.ObjectWriter;
@@ -37,32 +34,33 @@ import static org.hamcrest.Matchers.hasSize;
 
 @ExtendWith(MockitoExtension.class)
 @RunWith(MockitoJUnitRunner.class)
-public class FoodMenuControllerTests {
+public class EventControllerTests {
     @InjectMocks
-    FoodMenuController foodMenuController;
+    EventController eventController;
     @Mock
-    FoodMenuService foodMenuService;
+    EventService eventService;
     ObjectMapper objectMapper=new ObjectMapper();
     ObjectWriter objectWriter=objectMapper.writer();
     private MockMvc mockMvc;
-    FoodMenuDto foodMenuDto1=new FoodMenuDto(1,"Pizza","12-8-90",80,"Non-veg");
-    FoodMenuDto foodMenuDto2=new FoodMenuDto(2,"Burger","12-08-2020",90,"veg");
+     EventDto eventDto1=new EventDto(1,"Fresher's Day","Mohammed","Coimbatore","12-8-2022","9384784053","abc@gmail.com","12:00",10,500,200,8000, 2);
+     EventDto eventDto2=new EventDto(2,"Orientation Day","Taha","Chennai","14-8-2022","9904084858","taha@gmail.com","10:00",50,100,200,8000, 3);
     @Before
     public void setUp(){
         MockitoAnnotations.initMocks(this);
-        this.mockMvc= MockMvcBuilders.standaloneSetup(foodMenuController).build();
+        this.mockMvc= MockMvcBuilders.standaloneSetup(eventController).build();
     }
     @Test
     @Order(1)
-    public void test_addFoodMenu(){
+    public void test_addEvent(){
         String content;
+        EventDto output=eventDto1;
         try{
-            content=objectWriter.writeValueAsString(foodMenuDto1);
+            content=objectWriter.writeValueAsString(eventDto1);
         } catch (JsonProcessingException e) {
             throw new RuntimeException(e);
         }
         MockHttpServletRequestBuilder mockRequest= MockMvcRequestBuilders
-                .post("/admin/addFoodMenu/")
+                .post("/user/bookEvent")
                 .contentType(MediaType.APPLICATION_JSON)
                 .characterEncoding("utf-8")
                 .content(content);
@@ -70,18 +68,18 @@ public class FoodMenuControllerTests {
             mockMvc.perform(mockRequest)
                     .andExpect(MockMvcResultMatchers.status().isOk())
                     .andDo(MockMvcResultHandlers.print());
-            Assert.assertEquals(foodMenuDto1,foodMenuDto1);
+            Assert.assertEquals(eventDto1,output);
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
     }
     @Test
     @Order(2)
-    public void test_getFoodMenus() throws Exception {
-        List<FoodMenuDto> foodList=new ArrayList<>(Arrays.asList(foodMenuDto1,foodMenuDto2));
-        Mockito.when(foodMenuService.getFoodMenus()).thenReturn(foodList);
+    public void test_getAllEvents() throws Exception {
+        List<EventDto> eventList=new ArrayList<>(Arrays.asList(eventDto1,eventDto2));
+        Mockito.when(eventService.getAllEvents()).thenReturn(eventList);
         mockMvc.perform(MockMvcRequestBuilders
-                        .get("/admin/foodMenus")
+                        .get("/admin/view-booked-event")
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(MockMvcResultMatchers.status().isOk())
                 .andExpect(MockMvcResultMatchers.jsonPath("$",hasSize(2)))
@@ -89,28 +87,41 @@ public class FoodMenuControllerTests {
     }
     @Test
     @Order(3)
-    public void test_getFoodMenu() throws Exception {
-        int id=1;
-        Mockito.when(foodMenuService.getFoodMenu(id)).thenReturn(foodMenuDto1);
+    public void test_getEvent() throws Exception {
+        int eventId=1;
+        Mockito.when(eventService.getEvent(eventId)).thenReturn(eventDto1);
         mockMvc.perform(MockMvcRequestBuilders
-                        .get("/admin/foodMenu/1")
+                        .get("/user/view-booked-event/1")
                         .contentType(MediaType.APPLICATION_JSON))
                 .andDo(MockMvcResultHandlers.print())
                 .andExpect(MockMvcResultMatchers.status().isOk())
-                .andExpect(MockMvcResultMatchers.jsonPath("$.menuName").value("Pizza"));
+                .andExpect(MockMvcResultMatchers.jsonPath("$.eventName").value("Fresher's Day"));
     }
     @Test
     @Order(4)
-    public void test_updateFoodMenu() throws Exception {
-        int id=1;
+    public void test_getAllEventsByUserId() throws Exception {
+        long userId = 2;
+        List<EventDto> eventList = new ArrayList<>(Arrays.asList(eventDto1));
+        Mockito.when(eventService.getAllEventByUserId(userId)).thenReturn(eventList);
+        mockMvc.perform(MockMvcRequestBuilders
+                        .get("/user/view-booked-events/2")
+                        .contentType(MediaType.APPLICATION_JSON))
+                .andDo(MockMvcResultHandlers.print())
+                .andExpect(MockMvcResultMatchers.status().isOk())
+                .andExpect(MockMvcResultMatchers.jsonPath("$[0].eventName").value("Fresher's Day"));
+    }
+    @Test
+    @Order(5)
+    public void test_editEvent() throws Exception {
+        int eventId=1;
         String content;
         try{
-            content=objectWriter.writeValueAsString(foodMenuDto1);
+            content=objectWriter.writeValueAsString(eventDto1);
         } catch (JsonProcessingException e) {
             throw new RuntimeException(e);
         }
         MockHttpServletRequestBuilder mockRequest=MockMvcRequestBuilders
-                .put("/admin/editFoodMenu/1")
+                .put("/view-booked-event/edit-view-booked-event/1")
                 .contentType(MediaType.APPLICATION_JSON)
                 .accept(MediaType.APPLICATION_JSON)
                 .characterEncoding("utf-8")
@@ -120,15 +131,16 @@ public class FoodMenuControllerTests {
                 .andExpect(MockMvcResultMatchers.status().isOk());
     }
     @Test
-    @Order(5)
-    public void test_deleteFoodMenu() throws Exception {
-        int id=1;
+    @Order(6)
+    public void test_deleteEvent() throws Exception {
+        int eventId=1;
         MockHttpServletRequestBuilder mockRequest=MockMvcRequestBuilders
-                .delete("/admin/deleteFoodMenu/1")
+                .delete("/user/view-booked-event/delete-view-booked-event/1")
                 .contentType(MediaType.APPLICATION_JSON)
                 .accept(MediaType.APPLICATION_JSON);
         mockMvc.perform(mockRequest)
                 .andDo(MockMvcResultHandlers.print())
                 .andExpect(MockMvcResultMatchers.status().isOk());
     }
+
 }
