@@ -22,10 +22,10 @@ public class Event {
     private String eventName;
     private String name;
     private String userAddress;
-    private LocalDate eventDate;
+    private String  eventDate;
     private String phoneNumber;
     private String email;
-    private LocalTime eventTime;
+    private String  eventTime;
     private int noOfPeople;
     private int menu;
     private int addon;

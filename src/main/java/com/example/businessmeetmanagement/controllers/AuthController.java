@@ -77,7 +77,7 @@ public class AuthController {
         return new ResponseEntity<>(users,HttpStatus.OK);
     }
 
-    @DeleteMapping("admin/deleteUser")
+    @DeleteMapping("admin/deleteUser/{id}")
     public void deleteUser(@PathVariable("id") Long id){
         service.deleteUser(id);
     }

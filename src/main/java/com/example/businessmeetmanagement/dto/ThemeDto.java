@@ -1,8 +1,11 @@
 package com.example.businessmeetmanagement.dto;
 
-import lombok.Data;
+import lombok.*;
 
-@Data
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
 public class ThemeDto {
     private int id;
     private String themeName;

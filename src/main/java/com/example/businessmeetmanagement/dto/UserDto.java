@@ -1,8 +1,11 @@
 package com.example.businessmeetmanagement.dto;
 
-import lombok.Data;
+import lombok.*;
 
-@Data
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
 public class UserDto {
     private long id;
     private String usertype;
