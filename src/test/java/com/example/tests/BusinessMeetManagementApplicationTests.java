@@ -1,4 +1,4 @@
-package com.example.businessmeetmanagement;
+package com.example.tests;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
