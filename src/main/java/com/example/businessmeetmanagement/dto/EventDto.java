@@ -10,6 +10,7 @@ import java.time.LocalTime;
 @Getter
 @Setter
 @NoArgsConstructor
+
 public class EventDto {
 
     private int eventId;

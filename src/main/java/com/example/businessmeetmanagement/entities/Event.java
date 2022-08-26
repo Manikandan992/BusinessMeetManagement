@@ -22,10 +22,17 @@ public class Event {
     private String eventName;
     private String name;
     private String userAddress;
+<<<<<<< HEAD
     private String eventDate;
     private String phoneNumber;
     private String email;
     private String eventTime;
+=======
+    private String  eventDate;
+    private String phoneNumber;
+    private String email;
+    private String  eventTime;
+>>>>>>> 409e0a4c7cf53db93d65201555c3322b47fdabc0
     private int noOfPeople;
     private int menu;
     private int addon;
